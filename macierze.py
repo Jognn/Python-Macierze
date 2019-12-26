@@ -34,11 +34,11 @@ class Macierz:
 
     def __init__ (self, tablica = ''):
         """ 
-            wartosc - zwraca tablice wartosci macierzy
-            wiersze - zwraca wiersze macierzy
-            kolumny - zwraca kolumny macierzy
-            wiersze_ilosc - zwraca ilosc wierszy macierzy
-            kolumny_ilosc - zwraca ilosc kolumn macierzy
+            wartosc - Zwraca tablice wartosci macierzy
+            wiersze - Zwraca wiersze macierzy
+            kolumny - Zwraca kolumny macierzy
+            wiersze_ilosc - Zwraca ilosc wierszy macierzy
+            kolumny_ilosc - Zwraca ilosc kolumn macierzy
         """
 
         if isinstance(tablica, str):
@@ -57,6 +57,8 @@ class Macierz:
         self.kolumny_ilosc = len(self.kolumny)
 
     def __str__(self):
+        """ Wyswietla macierz """
+        
         tmp = [[str(j) for j in i]for i in self.wartosc]
         tekst = ''
         for i in range(len(tmp)):
@@ -64,10 +66,10 @@ class Macierz:
         return tekst
 
     def __add__ (self, other):
-        """ Mozna wykonywac operacje (+) za pomoca liczb typu int lub obiektu klasy Macierz """
+        """ Mozna wykonywac operacje (+) za pomoca liczb typu (int, float) lub obiektu klasy Macierz """
 
         wynik = None
-        if isinstance(other, int):
+        if isinstance(other, (int, float)):
             wynik = [[self.wartosc[i][j] + other for j in range(self.kolumny_ilosc)] for i in range(self.wiersze_ilosc)]
 
         elif isinstance(other, Macierz):
@@ -81,10 +83,10 @@ class Macierz:
         return Macierz(wynik)
 
     def __mul__(self, other):
-        """ Mozna wykonywac operacje (*) za pomoca liczb typu int lub obiektu klasy Macierz """
+        """ Mozna wykonywac operacje (*) za pomoca liczb typu (int, float) lub obiektu klasy Macierz """
 
         wynik = []
-        if(isinstance(other, int)):
+        if(isinstance(other, (int, float))):
             wynik = [[self.wartosc[i][j]*other for j in range(self.kolumny_ilosc)] for i in range(self.wiersze_ilosc)]
 
         elif(isinstance(other, Macierz)): # UP
@@ -94,11 +96,10 @@ class Macierz:
             for m in range(self.wiersze_ilosc):
                 tmp = []
                 for n in range(other.kolumny_ilosc):
-                    #self.wiersze[m] * other.kolumny[n]
-                    helper = 0
-                    for x in range(len(self.wiersze[m])):
-                        helper += self.wiersze[m][x] * other.kolumny[n][x]
-                    tmp.append(helper)
+                    x = 0
+                    for i in range(len(self.wiersze[m])):
+                        x += self.wiersze[m][i] * other.kolumny[n][i]
+                    tmp.append(x)
                 wynik.append(tmp)
         else:
             raise Exception('Operacje (*) mozna wykonywac tylko za pomoca liczby typu int lub obiektu klasy Macierz')
