@@ -8,6 +8,7 @@ FIXES:
 
 UPGRADES:
     1) Upiekszyc kod wymnazania macierzy
+    2) Upiekszyc kod wykreslania
 
 MAYBE:
     1) Overload "=="
@@ -83,6 +84,19 @@ class Macierz:
             raise TypeError('Operacje (*) mozna wykonywac tylko za pomoca liczby typu int lub obiektu klasy Macierz')
         return Macierz(wynik)
 
+    def wykresl(self, i, j): # UP: upiekszyc
+        skladowe = []
+        for m, wiersz in enumerate(self.wartosc):
+            if m+1 == i:
+                continue
+            tmp = list()
+            for n in range(len(wiersz)):
+                if n+1 == j:
+                    continue
+                tmp.append(wiersz[n])
+            skladowe.append(tmp)
+        return Macierz(skladowe)
+
     def det(self):
         """ Wylicza wyznacznik macierzy """
         if not self.kwadratowa:
@@ -90,6 +104,8 @@ class Macierz:
 
         i = 1
         j = 1
+
+
 
 
 
@@ -116,14 +132,12 @@ class Macierz:
 
 
 if __name__ == "__main__":
-    a = Macierz("4 3 2; 1 3 2; 4 3 2")
+    a = Macierz("4 3 2; 1 3 7; 4 3 8")
     #b = Macierz([[1]])
     #c = Macierz()
 
-    a.kolumny = [[2], [3], [1]]
-    print(a.wiersze)
-    print(a.kolumny)
+    print(a)
+    print(a.wykresl(2,3))
 
-    help(Macierz)
 
     # [ 1 2 3; 4 5 6; 7 8 9 ]
