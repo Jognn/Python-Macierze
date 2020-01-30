@@ -1,7 +1,6 @@
 """
 TO DO:
-    1) Macierz.__str__
-    2) Overload "=="
+    1) Wyliczanie wyznacznika
 
 FIXES:
 
@@ -12,6 +11,7 @@ UPGRADES:
 
 MAYBE:
     1) Stworzyc klase Sprawdz
+    2) Overload "=="
 
 """
 
@@ -31,7 +31,6 @@ def sprawdz_wymiary(tablica): # UP
     return False
 
 class Macierz:
-
     def __init__ (self, tablica = ''):
         """ 
             wartosc - Zwraca tablice wartosci macierzy
@@ -39,6 +38,7 @@ class Macierz:
             kolumny - Zwraca kolumny macierzy
             wiersze_ilosc - Zwraca ilosc wierszy macierzy
             kolumny_ilosc - Zwraca ilosc kolumn macierzy
+
         """
 
         if isinstance(tablica, str):
@@ -60,9 +60,9 @@ class Macierz:
         """ Wyswietla macierz """
         
         tmp = [[str(j) for j in i]for i in self.wartosc]
-        tekst = ''
+        tekst = ' '
         for i in range(len(tmp)):
-            tekst += '  '.join(tmp[i]) + "\n"
+            tekst += "| " + '  '.join(tmp[i]) + " | \n "
         return tekst
 
     def __add__ (self, other):
@@ -106,6 +106,9 @@ class Macierz:
 
         return Macierz(wynik)
 
+    def det(self):
+        pass
+
     def convert(self, wejscie):
         wiersze_ilosc = [x for x in wejscie.split(';')]
         self.wartosc = [[float(x) for x in wiersz.split()]for wiersz in wiersze_ilosc]
@@ -117,9 +120,7 @@ if __name__ == "__main__":
     b = Macierz("1; 2; 3")
     c = Macierz()
     
-    
-    c = a*b
-    print(c)
-    
+    print(a)
+    print(b)
 
     # [ 1 2 3; 4 5 6; 7 8 9 ]
