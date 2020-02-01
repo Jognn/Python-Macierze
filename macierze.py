@@ -2,6 +2,7 @@
 TO DO:
     1) Wyliczanie wyznacznika
     2) Zrobic self.kolumny virtual
+    3) Wyszukiwanie najbardziej optymalnej kolumny/wiersza w wyznaczaniu det()
 
 FIXES:
 
@@ -9,10 +10,11 @@ FIXES:
 UPGRADES:
     1) Upiekszyc kod wymnazania macierzy
     2) Upiekszyc kod wykreslania
+    3) Upiekszyc kod wyliczania macierzy?
 
 MAYBE:
     1) Overload "=="
-
+    2) Upiekszyc kod wyliczania macierzy?
 """
 
 class Macierz:
@@ -38,11 +40,10 @@ class Macierz:
         self.kolumny = [[self.wartosc[i][j] for i in range(len(self.wiersze))]for j in range(len(self.wiersze[0]))] # TO DO: make virtual
         self.wiersze_ilosc = len(self.wiersze)
         self.kolumny_ilosc = len(self.kolumny)
-
         self.kwadratowa = True if self.wiersze_ilosc == self.kolumny_ilosc else False
 
     def __str__(self):
-        """ Wyswietla macierz """
+        """ Wyswietla Macierz """
         tmp = [[str(j) for j in i]for i in self.wartosc]
         tekst = ' '
         for i in range(len(tmp)):
@@ -85,6 +86,10 @@ class Macierz:
         return Macierz(wynik)
 
     def wykresl(self, i, j): # UP: upiekszyc
+        """ Zwraca Macierz z wykreslonym wierszem i kolumna """
+        if not 0 < i <= self.wiersze_ilosc or not 0 < j <= self.kolumny_ilosc:
+            raise Exception("Prosze podac odpowiednia kolumne i wiersz do wykreslenia")
+
         skladowe = []
         for m, wiersz in enumerate(self.wartosc):
             if m+1 == i:
@@ -98,18 +103,18 @@ class Macierz:
         return Macierz(skladowe)
 
     def det(self):
-        """ Wylicza wyznacznik macierzy """
+        """ Wylicza wyznacznik Macierzy """
         if not self.kwadratowa:
             raise Exception("Obliczenie wyznacznika jest mozliwe tylko dla macierzy kwadratowej!")
 
-        i = 1
-        j = 1
-
-
-
-
-
-
+        if self.wiersze_ilosc == 1 and self.kolumny_ilosc == 1:
+            return self.wartosc[0][0]
+        else:
+            i = 1
+            suma = 0
+            for m in range(1, self.kolumny_ilosc+1):
+                suma += pow(-1, i+m) * self.wartosc[i-1][m-1] * self.wykresl(i, m).det()
+            return suma
 
     def convert(self, wejscie):
         wiersze_ilosc = [x for x in wejscie.split(';')]
@@ -132,12 +137,12 @@ class Macierz:
 
 
 if __name__ == "__main__":
-    a = Macierz("4 3 2; 1 3 7; 4 3 8")
+    a = Macierz("1 2 3; 20 20 20; 21 20 20")
+    d = Macierz(" 1 3 4 1; 2 3 4 1; 1 1 1 1; 2 3 2 2")
     #b = Macierz([[1]])
     #c = Macierz()
 
-    print(a)
-    print(a.wykresl(2,3))
+    print(a.det())
 
 
     # [ 1 2 3; 4 5 6; 7 8 9 ]
